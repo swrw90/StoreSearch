@@ -12,6 +12,7 @@
 		C7925DE6218062460040F858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7925DE4218062460040F858 /* Main.storyboard */; };
 		C7925DE8218062490040F858 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7925DE7218062490040F858 /* Assets.xcassets */; };
 		C7925DEB218062490040F858 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7925DE9218062490040F858 /* LaunchScreen.storyboard */; };
+		C7925DF3218135430040F858 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DF2218135430040F858 /* SearchResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		C7925DE7218062490040F858 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C7925DEA218062490040F858 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C7925DEC218062490040F858 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7925DF2218135430040F858 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				C7925DE0218062460040F858 /* AppDelegate.swift */,
 				C7925DE2218062460040F858 /* SearchViewController.swift */,
 				C7925DE4218062460040F858 /* Main.storyboard */,
+				C7925DF2218135430040F858 /* SearchResult.swift */,
 				C7925DE7218062490040F858 /* Assets.xcassets */,
 				C7925DE9218062490040F858 /* LaunchScreen.storyboard */,
 				C7925DEC218062490040F858 /* Info.plist */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7925DE3218062460040F858 /* SearchViewController.swift in Sources */,
+				C7925DF3218135430040F858 /* SearchResult.swift in Sources */,
 				C7925DE1218062460040F858 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
