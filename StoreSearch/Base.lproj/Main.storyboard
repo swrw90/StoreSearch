@@ -17,15 +17,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gOJ-Ux-b64">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gOJ-Ux-b64">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <searchBar contentMode="redraw" placeholder="App name, artist, song, album, e-book." translatesAutoresizingMaskIntoConstraints="NO" id="V7v-ej-7iT">
+                                <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="gOJ-Ux-b64" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1a4-nl-wyS"/>
+                            <constraint firstItem="gOJ-Ux-b64" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1zI-Kv-Y8B"/>
+                            <constraint firstItem="gOJ-Ux-b64" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="HOB-9B-aXD"/>
+                            <constraint firstItem="gOJ-Ux-b64" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="KxW-DS-apG"/>
+                            <constraint firstItem="V7v-ej-7iT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ke9-ML-E6l"/>
+                            <constraint firstItem="V7v-ej-7iT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="o7S-qy-xBG"/>
+                            <constraint firstItem="V7v-ej-7iT" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="x1g-bJ-xml"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="V7v-ej-7iT" id="b0f-GG-eyg"/>
+                        <outlet property="tableView" destination="gOJ-Ux-b64" id="6WR-kS-L5s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
