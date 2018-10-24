@@ -29,11 +29,17 @@ extension SearchViewController: UISearchBarDelegate {
     
     // Add fake data to table view
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         searchResults = []
         for i in 0...2 {
             searchResults.append(String(format: "Fake Result %d for '%@'", i, searchBar.text!))
         }
         tableView.reloadData()
+    }
+    
+//    “Allows the item to indicate its top position
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
 }
 
