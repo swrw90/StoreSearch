@@ -15,6 +15,7 @@ class SearchViewController: UIViewController {
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 80
         
         // Add 64-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
         tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
@@ -68,15 +69,15 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
         
         if searchResults.count == 0 {
-            cell.textLabel!.text = "(Nothing found)"
-            cell.detailTextLabel!.text = ""
+            cell.nameLabel.text = "(Nothing found)"
+            cell.artistNameLabel.text = ""
         } else {
             let searchResult = searchResults[indexPath.row]
-            cell.textLabel!.text = searchResult.name
-            cell.detailTextLabel!.text = searchResult.artistName
+            cell.nameLabel.text = searchResult.name
+            cell.artistNameLabel.text = searchResult.artistName
         }
         return cell
     }
