@@ -13,7 +13,7 @@
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" id="IIc-fI-5M7">
             <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IIc-fI-5M7" id="foi-VP-PmB">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IIc-fI-5M7" id="foi-VP-PmB" customClass="SearchResultCell" customModule="StoreSearch" customModuleProvider="target">
                 <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -29,23 +29,26 @@
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPe-bD-FlD">
-                        <rect key="frame" x="93" y="33" width="264" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Artist Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPe-bD-FlD">
+                        <rect key="frame" x="93" y="30" width="264" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="xPe-bD-FlD" secondAttribute="bottom" constant="28.5" id="56L-V7-9F3"/>
-                    <constraint firstAttribute="trailing" secondItem="xPe-bD-FlD" secondAttribute="trailing" constant="18" id="BYN-rg-Kal"/>
-                    <constraint firstItem="xPe-bD-FlD" firstAttribute="leading" secondItem="L2A-Ju-cRu" secondAttribute="trailing" constant="17" id="HIJ-Tw-abH"/>
                     <constraint firstItem="L2A-Ju-cRu" firstAttribute="top" secondItem="foi-VP-PmB" secondAttribute="top" constant="10" id="Kuc-zo-TGy"/>
                     <constraint firstItem="fI4-ih-Tyf" firstAttribute="top" secondItem="foi-VP-PmB" secondAttribute="topMargin" id="MR7-Fu-l3K"/>
                     <constraint firstItem="L2A-Ju-cRu" firstAttribute="leading" secondItem="foi-VP-PmB" secondAttribute="leading" constant="16" id="Y5h-zi-Mmn"/>
                     <constraint firstItem="fI4-ih-Tyf" firstAttribute="leading" secondItem="L2A-Ju-cRu" secondAttribute="trailing" constant="19" id="eUU-Q9-Iiz"/>
                     <constraint firstItem="fI4-ih-Tyf" firstAttribute="trailing" secondItem="foi-VP-PmB" secondAttribute="trailingMargin" id="pRK-E6-loz"/>
                 </constraints>
+                <connections>
+                    <outlet property="artistNameLabel" destination="xPe-bD-FlD" id="azy-HT-Doj"/>
+                    <outlet property="artworkImageView" destination="L2A-Ju-cRu" id="UW6-Ei-Sjz"/>
+                    <outlet property="nameLabel" destination="fI4-ih-Tyf" id="saE-6t-7eC"/>
+                </connections>
             </tableViewCellContentView>
             <point key="canvasLocation" x="85.599999999999994" y="93.553223388305852"/>
         </tableViewCell>

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C73FF87E21819A6F004A897B /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FF87D21819A6F004A897B /* SearchResultCell.xib */; };
+		C73FF88021824DBF004A897B /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FF87F21824DBF004A897B /* SearchResultCell.swift */; };
 		C7925DE1218062460040F858 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DE0218062460040F858 /* AppDelegate.swift */; };
 		C7925DE3218062460040F858 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DE2218062460040F858 /* SearchViewController.swift */; };
 		C7925DE6218062460040F858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7925DE4218062460040F858 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		C73FF87D21819A6F004A897B /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
+		C73FF87F21824DBF004A897B /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		C7925DDD218062460040F858 /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7925DE0218062460040F858 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7925DE2218062460040F858 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				C7925DF2218135430040F858 /* SearchResult.swift */,
 				C7925DE7218062490040F858 /* Assets.xcassets */,
 				C73FF87D21819A6F004A897B /* SearchResultCell.xib */,
+				C73FF87F21824DBF004A897B /* SearchResultCell.swift */,
 				C7925DE9218062490040F858 /* LaunchScreen.storyboard */,
 				C7925DEC218062490040F858 /* Info.plist */,
 			);
@@ -144,6 +147,7 @@
 			files = (
 				C7925DE3218062460040F858 /* SearchViewController.swift in Sources */,
 				C7925DF3218135430040F858 /* SearchResult.swift in Sources */,
+				C73FF88021824DBF004A897B /* SearchResultCell.swift in Sources */,
 				C7925DE1218062460040F858 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
