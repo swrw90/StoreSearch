@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C73FF87E21819A6F004A897B /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73FF87D21819A6F004A897B /* SearchResultCell.xib */; };
 		C7925DE1218062460040F858 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DE0218062460040F858 /* AppDelegate.swift */; };
 		C7925DE3218062460040F858 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DE2218062460040F858 /* SearchViewController.swift */; };
 		C7925DE6218062460040F858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7925DE4218062460040F858 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C73FF87D21819A6F004A897B /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		C7925DDD218062460040F858 /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7925DE0218062460040F858 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7925DE2218062460040F858 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				C7925DE4218062460040F858 /* Main.storyboard */,
 				C7925DF2218135430040F858 /* SearchResult.swift */,
 				C7925DE7218062490040F858 /* Assets.xcassets */,
+				C73FF87D21819A6F004A897B /* SearchResultCell.xib */,
 				C7925DE9218062490040F858 /* LaunchScreen.storyboard */,
 				C7925DEC218062490040F858 /* Info.plist */,
 			);
@@ -127,6 +130,7 @@
 			files = (
 				C7925DEB218062490040F858 /* LaunchScreen.storyboard in Resources */,
 				C7925DE8218062490040F858 /* Assets.xcassets in Resources */,
+				C73FF87E21819A6F004A897B /* SearchResultCell.xib in Resources */,
 				C7925DE6218062460040F858 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
