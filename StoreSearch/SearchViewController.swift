@@ -18,6 +18,10 @@ class SearchViewController: UIViewController {
         
         // Add 64-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
         tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        
+        // Register SearchResultCell nib for use
+        let cellNib = UINib(nibName: "SearchResultCell", bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: "SearchResultCell")
     }
 
 
@@ -64,12 +68,7 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "SearchResultCell"
-        
-        var cell:UITableViewCell! = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-        if cell == nil {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath)
         
         if searchResults.count == 0 {
             cell.textLabel!.text = "(Nothing found)"
