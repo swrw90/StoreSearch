@@ -45,22 +45,19 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     
-    // Add fake data to table view
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        searchResults = []
-        
-//        Create an instance of the SearchResult object && add fake text into its properties
-        if searchBar.text! != "justin bieber" {
-        for i in 0...2 {
-            let searchResult = SearchResult()
-            searchResult.name = String(format: "Fake Result %d for", i)
-            searchResult.artistName = searchBar.text!
-            searchResults.append(searchResult)
+        if !searchBar.text!.isEmpty {
+            searchBar.resignFirstResponder()
+            
+            hasSearched = true
+            searchResults = []
+            
+            let url = iTunesURL(searchText: searchBar.text!)
+            print("URL: '\(url)'")
+            
+            tableView.reloadData()
         }
-        }
-        hasSearched = true
-        tableView.reloadData()
     }
     
 //    “Allows the item to indicate its top position
@@ -104,5 +101,13 @@ extension SearchViewController: UITableViewDataSource {
         } else {
             return indexPath
         }
+    }
+    
+    
+//    MARK: - Private Methods
+    func iTunesURL(searchText: String) -> URL {
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@", searchText)
+        let url = URL(string: urlString)
+        return nil!
     }
 }
