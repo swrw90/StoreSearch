@@ -56,6 +56,10 @@ extension SearchViewController: UISearchBarDelegate {
             let url = iTunesURL(searchText: searchBar.text!)
             print("URL: '\(url)'")
             
+            if let jsonString = performStoreRequest(with: url) {
+                print("Received JSON string '\(jsonString)'")
+            }
+            
             tableView.reloadData()
         }
     }
@@ -101,13 +105,28 @@ extension SearchViewController: UITableViewDataSource {
         } else {
             return indexPath
         }
+        
     }
     
     
 //    MARK: - Private Methods
+    
+//    Create a new string where all the special characters are escaped, use that string for the search term
     func iTunesURL(searchText: String) -> URL {
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@", searchText)
+        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        
+        let urlString = String(format: "https://itunes.apple.com/search?term=%@", encodedText)
         let url = URL(string: urlString)
         return nil!
+    }
+    
+    // Returns new string object with data received from server 
+    func performStoreRequest(with url: URL) -> String? {
+        do {
+            return try String(contentsOf: url, encoding: .utf8)
+        } catch {
+            print("Download Error: \(error.localizedDescription)")
+            return nil
+        }
     }
 }
