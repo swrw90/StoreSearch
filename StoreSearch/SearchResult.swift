@@ -7,7 +7,18 @@
 //
 
 import Foundation
-class SearchResult {
-    var name = ""
+
+// Holds a count of results returned from request and array of request objects
+class ResultArray:Codable {
+    var resultCount = 0
+    var results = [SearchResult]()
+}
+
+class SearchResult:Codable {
     var artistName = ""
+    var trackName = ""
+    
+    var name:String {
+        return trackName
+    }
 }

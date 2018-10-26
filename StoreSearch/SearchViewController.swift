@@ -117,10 +117,10 @@ extension SearchViewController: UITableViewDataSource {
         
         let urlString = String(format: "https://itunes.apple.com/search?term=%@", encodedText)
         let url = URL(string: urlString)
-        return nil!
+        return url!
     }
     
-    // Returns new string object with data received from server 
+    // Returns new string object with data received from server
     func performStoreRequest(with url: URL) -> String? {
         do {
             return try String(contentsOf: url, encoding: .utf8)
