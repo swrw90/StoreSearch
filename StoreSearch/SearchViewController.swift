@@ -21,8 +21,12 @@ class SearchViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
         
         // Register SearchResultCell nib for use
-        let cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
+        var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.searchResultCell)
+        
+        // Register NothingFoundCell nib for use
+        cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
     }
 
 
@@ -34,6 +38,7 @@ class SearchViewController: UIViewController {
     //MARK: - TableViewCellIdentifiers
     struct TableViewCellIdentifiers {
         static let searchResultCell = "SearchResultCell"
+        static let nothingFoundCell = "nothingFoundCell"
     }
 }
 
