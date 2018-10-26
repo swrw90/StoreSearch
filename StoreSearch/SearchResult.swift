@@ -14,9 +14,16 @@ class ResultArray:Codable {
     var results = [SearchResult]()
 }
 
-class SearchResult:Codable {
+class SearchResult:Codable, CustomStringConvertible {
     var artistName = ""
     var trackName = ""
+    var kind = ""
+    
+    var description: String {
+        return "Kind: \(kind) Name: \(name), Artist Name: \(artistName)\n"
+    }
+    
+    
     
     var name:String {
         return trackName

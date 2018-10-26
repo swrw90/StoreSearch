@@ -45,7 +45,6 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
@@ -132,6 +131,7 @@ extension SearchViewController: UITableViewDataSource {
             return try Data(contentsOf: url)
         } catch {
             print("Download Error: \(error.localizedDescription)")
+            showNetworkError()
             return nil
         }
     }
@@ -146,5 +146,14 @@ extension SearchViewController: UITableViewDataSource {
             print("JSON Error: \(error)")
             return []
         }
+    }
+    
+    // Handle network request error
+    func showNetworkError() {
+        let alert = UIAlertController(title: "Whoops...", message: "There was an error accessing the iTunes Store." + " Please try again.", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
 }
