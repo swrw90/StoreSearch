@@ -43,11 +43,6 @@ class SearchViewController: UIViewController {
     }
 }
 
-func < (lhs: SearchResult, rhs: SearchResult) -> Bool {
-    return lhs.name.localizedStandardCompare(rhs.name) ==
-        .orderedAscending
-}
-
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

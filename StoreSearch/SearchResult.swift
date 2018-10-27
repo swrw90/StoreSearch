@@ -14,14 +14,12 @@ class ResultArray:Codable {
     var results = [SearchResult]()
 }
 
+// Let the Codable protocol know the SearchResult properties should match the JSON data
 class SearchResult:Codable, CustomStringConvertible {
+    var kind:String?
     var artistName = ""
-    var trackName: String?
-    var kind: String?
-    var trackPrice: Double?
-    var currency = ""
-    var imageSmall = ""
-    var imageLarge = ""
+    var trackName:String?
+    var trackPrice:Double?
     var trackViewUrl:String?
     var collectionName:String?
     var collectionViewUrl:String?
@@ -29,34 +27,34 @@ class SearchResult:Codable, CustomStringConvertible {
     var itemPrice:Double?
     var itemGenre:String?
     var bookGenre:[String]?
+    var currency = ""
+    var imageSmall = ""
+    var imageLarge = ""
     
-// Let the Codable protocol know the SearchResult properties should match the JSON data
     enum CodingKeys: String, CodingKey {
         case imageSmall = "artworkUrl60"
         case imageLarge = "artworkUrl100"
-        case storeURL = "trackViewUrl"
-        case genre = "primaryGenreName"
-        case kind, artistName, trackName
-        case trackPrice, currency
+        case itemGenre = "primaryGenreName"
+        case bookGenre = "genres"
+        case itemPrice = "price"
+        case kind, artistName, currency
+        case trackName, trackPrice, trackViewUrl
+        case collectionName, collectionViewUrl, collectionPrice
     }
     
-    var description: String {
-        return "Kind: \(kind ?? "") Name: \(name), Artist Name: \(artistName)\n"
-    }
-    
-    var name: String {
+    var name:String {
         return trackName ?? collectionName ?? ""
     }
     
-    var storeURL: String {
+    var storeURL:String {
         return trackViewUrl ?? collectionViewUrl ?? ""
     }
     
-    var price: Double {
-        return trackPrice ?? collectionPrice ?? itemPrice ?? 0.0
+    var price:Double {
+        return trackPrice ?? collectionPrice ?? 0.0
     }
     
-    var genre: String {
+    var genre:String {
         if let genre = itemGenre {
             return genre
         } else if let genres = bookGenre {
@@ -65,7 +63,7 @@ class SearchResult:Codable, CustomStringConvertible {
         return ""
     }
     
-    var type: String {
+    var type:String {
         let kind = self.kind ?? "audiobook"
         switch kind {
         case "album": return "Album"
@@ -82,4 +80,12 @@ class SearchResult:Codable, CustomStringConvertible {
         }
         return "Unknown"
     }
+    
+    var description:String {
+        return "Kind: \(kind ?? ""), Name: \(name), Artist Name: \(artistName)\n"
+    }
+}
+
+func < (lhs: SearchResult, rhs: SearchResult) -> Bool {
+    return lhs.name.localizedStandardCompare(rhs.name) == .orderedAscending
 }
