@@ -55,9 +55,9 @@ extension SearchViewController: UISearchBarDelegate {
             let url = iTunesURL(searchText: searchBar.text!)
             print("URL: '\(url)'")
             
+//            Place the returned array into the searchResults instance variable 
             if let data = performStoreRequest(with: url){
-                let results = parse(data: data)
-                print("Got results: \(results)")
+                searchResults = parse(data: data)
             }
             
             
@@ -95,7 +95,11 @@ extension SearchViewController: UITableViewDataSource {
             
             let searchResult = searchResults[indexPath.row]
             cell.nameLabel.text = searchResult.name
-            cell.artistNameLabel.text = searchResult.artistName
+            if searchResult.artistName.isEmpty {
+                cell.artistNameLabel.text = "Unknown"
+            } else {
+                cell.artistNameLabel.text = String(format: "%@ (%@)", searchResult.artistName, searchResult.type)
+            }
             return cell
         }
     }
