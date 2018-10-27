@@ -43,6 +43,11 @@ class SearchViewController: UIViewController {
     }
 }
 
+func < (lhs: SearchResult, rhs: SearchResult) -> Bool {
+    return lhs.name.localizedStandardCompare(rhs.name) ==
+        .orderedAscending
+}
+
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -58,6 +63,7 @@ extension SearchViewController: UISearchBarDelegate {
 //            Place the returned array into the searchResults instance variable 
             if let data = performStoreRequest(with: url){
                 searchResults = parse(data: data)
+                searchResults.sort(by: <)
             }
             
             
