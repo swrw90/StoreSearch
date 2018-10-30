@@ -14,19 +14,20 @@ class ResultArray:Codable {
     var results = [SearchResult]()
 }
 
-// Let the Codable protocol know the SearchResult properties should match the JSON data
+// Lets the Codable protocol know the SearchResult properties should match the JSON data
+// Convert JSON to custom object SearchResult
 class SearchResult:Codable, CustomStringConvertible {
-    var kind:String?
+    var kind: String?
     var artistName = ""
-    var trackName:String?
-    var trackPrice:Double?
-    var trackViewUrl:String?
-    var collectionName:String?
-    var collectionViewUrl:String?
-    var collectionPrice:Double?
-    var itemPrice:Double?
-    var itemGenre:String?
-    var bookGenre:[String]?
+    var trackName: String?
+    var trackPrice: Double?
+    var trackViewUrl: String?
+    var collectionName: String?
+    var collectionViewUrl: String?
+    var collectionPrice: Double?
+    var itemPrice: Double?
+    var itemGenre: String?
+    var bookGenre: [String]?
     var currency = ""
     var imageSmall = ""
     var imageLarge = ""
@@ -42,19 +43,19 @@ class SearchResult:Codable, CustomStringConvertible {
         case collectionName, collectionViewUrl, collectionPrice
     }
     
-    var name:String {
+    var name: String {
         return trackName ?? collectionName ?? ""
     }
     
-    var storeURL:String {
+    var storeURL: String {
         return trackViewUrl ?? collectionViewUrl ?? ""
     }
     
-    var price:Double {
+    var price: Double {
         return trackPrice ?? collectionPrice ?? 0.0
     }
     
-    var genre:String {
+    var genre: String {
         if let genre = itemGenre {
             return genre
         } else if let genres = bookGenre {
@@ -63,7 +64,8 @@ class SearchResult:Codable, CustomStringConvertible {
         return ""
     }
     
-    var type:String {
+    // Returns string matching with the JSON type
+    var type: String {
         let kind = self.kind ?? "audiobook"
         switch kind {
         case "album": return "Album"
@@ -81,11 +83,15 @@ class SearchResult:Codable, CustomStringConvertible {
         return "Unknown"
     }
     
-    var description:String {
+    
+    var description: String {
         return "Kind: \(kind ?? ""), Name: \(name), Artist Name: \(artistName)\n"
     }
 }
 
+
+// Compare name of two SearchResults in ascending order
 func < (lhs: SearchResult, rhs: SearchResult) -> Bool {
     return lhs.name.localizedStandardCompare(rhs.name) == .orderedAscending
 }
+
