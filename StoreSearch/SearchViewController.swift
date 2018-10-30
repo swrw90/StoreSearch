@@ -57,6 +57,8 @@ extension SearchViewController: UISearchBarDelegate {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
             
+            isLoading = true
+            tableView.reloadData()
             hasSearched = true
             searchResults = []
             
@@ -73,7 +75,7 @@ extension SearchViewController: UISearchBarDelegate {
             if let jsonString = performStoreRequest(with: url) {
                 print("Received JSON string '\(jsonString)'")
             }
-            
+            isLoading = false 
             tableView.reloadData()
         }
     }
@@ -130,12 +132,11 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if searchResults.count == 0 {
+        if searchResults.count == 0 || isLoading {
             return nil
         } else {
             return indexPath
         }
-        
     }
     
     
