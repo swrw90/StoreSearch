@@ -8,10 +8,11 @@
 
 import UIKit
 
+// Manages SearchBar and displaying list of SearchResult objects
 class SearchViewController: UIViewController {
     var searchResults = [SearchResult]()
     var hasSearched = false
-
+    
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +30,8 @@ class SearchViewController: UIViewController {
         cellNib = UINib(nibName: TableViewCellIdentifiers.nothingFoundCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.nothingFoundCell)
     }
-
-
+    
+    
     //MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -45,6 +46,7 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     
+    // On click begin data request for search bar input
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
@@ -55,7 +57,7 @@ extension SearchViewController: UISearchBarDelegate {
             let url = iTunesURL(searchText: searchBar.text!)
             print("URL: '\(url)'")
             
-//            Place the returned array into the searchResults instance variable 
+            // Place the returned array into the searchResults instance variable then sort orderAscending
             if let data = performStoreRequest(with: url){
                 searchResults = parse(data: data)
                 searchResults.sort(by: <)
@@ -70,11 +72,12 @@ extension SearchViewController: UISearchBarDelegate {
         }
     }
     
-//    “Allows the item to indicate its top position
+    //    Allows the item to indicate its top position
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
 }
+
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,9 +122,9 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     
-//    MARK: - Private Methods
+    //    MARK: - Private Methods
     
-//    Create a new string where all the special characters are escaped, use that string for the search term
+    //    Create a new string where all the special characters are escaped, use that string for the search term
     func iTunesURL(searchText: String) -> URL {
         let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         
