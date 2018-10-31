@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
+    var dataTask: URLSessionDataTask?
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -56,6 +57,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
+            dataTask?.cancel()
             
             isLoading = true
             tableView.reloadData()
@@ -67,9 +69,9 @@ extension SearchViewController: UISearchBarDelegate {
             let session = URLSession.shared
             
             // Create a data task using URLSession to fetch contents of the URL.
-            let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
-                if let error = error {
-                    print("Failure \(error)")
+             dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+                if let error = error as NSError?, error.code == -999 {
+                    return
                 } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     
                     // Unwrap and parse data into SearchResult objects
@@ -87,9 +89,16 @@ extension SearchViewController: UISearchBarDelegate {
                 } else {
                     print("Failure \(response)")
                 }
+                // Handle error
+                DispatchQueue.main.async {
+                    self.hasSearched = false
+                    self.isLoading = false
+                    self.tableView.reloadData()
+                    self.showNetworkError()
+                }
             })
             // Sends the request to the server on a background thread
-            dataTask.resume()
+            dataTask?.resume()
         }
     }
     
