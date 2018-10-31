@@ -41,6 +41,7 @@ class SearchViewController: UIViewController {
     //MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     
     //MARK: - TableViewCellIdentifiers
@@ -69,9 +70,11 @@ extension SearchViewController: UISearchBarDelegate {
             let session = URLSession.shared
             
             // Create a data task using URLSession to fetch contents of the URL.
-             dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+            dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+                
+                // When a data task gets cancelled, its completion handler is still invoked but with an Error object that has error code -999
                 if let error = error as NSError?, error.code == -999 {
-                    return
+                    return //Search was cancelled 
                 } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     
                     // Unwrap and parse data into SearchResult objects
@@ -87,7 +90,7 @@ extension SearchViewController: UISearchBarDelegate {
                         return
                     }
                 } else {
-                    print("Failure \(response)")
+                    print("Failure \(response!)")
                 }
                 // Handle error
                 DispatchQueue.main.async {
