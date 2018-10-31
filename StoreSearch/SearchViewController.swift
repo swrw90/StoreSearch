@@ -40,7 +40,7 @@ class SearchViewController: UIViewController {
     
     //MARK: - Actions
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        print("Segment Changed: \(sender.selectedSegmentIndex)")
+        performSearch()
     }
     
     
@@ -62,6 +62,11 @@ extension SearchViewController: UISearchBarDelegate {
     
     // On click begin data request for search bar input
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSearch()
+    }
+    
+    // On click begin data request
+    func performSearch() {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
             dataTask?.cancel()
