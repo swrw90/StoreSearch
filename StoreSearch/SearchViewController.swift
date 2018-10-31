@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
         tableView.rowHeight = 80
         searchBar.becomeFirstResponder()
         
-        // Add 64-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
+        // Add 108-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
         tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
         
         // Register SearchResultCell nib for use
@@ -77,7 +77,7 @@ extension SearchViewController: UISearchBarDelegate {
             searchResults = []
             
             // Create the URL object using the search text
-            let url = self.iTunesURL(searchText: searchBar.text!)
+            let url = self.iTunesURL(searchText: searchBar.text!, category: segmentedControl.selectedSegmentIndex)
             let session = URLSession.shared
             
             // Create a data task using URLSession to fetch contents of the URL.
@@ -179,10 +179,18 @@ extension SearchViewController: UITableViewDataSource {
     //    MARK: - Private Methods
     
     //    Create a new string where all the special characters are escaped, use that string for the search term
-    func iTunesURL(searchText: String) -> URL {
-        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+    func iTunesURL(searchText: String, category: Int) -> URL {
+        let kind: String
         
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200", encodedText)
+        switch category {
+        case 1: kind = "musicTrack"
+        case 2: kind = "software"
+        case 3: kind = "ebook"
+        default: kind = ""
+        }
+        
+        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        let urlString = "https://itunes.apple.com/search?" + "term=\(encodedText)&limit=200&entity=\(kind)"
         let url = URL(string: urlString)
         return url!
     }
