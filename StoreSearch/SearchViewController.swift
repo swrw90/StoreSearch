@@ -62,28 +62,26 @@ extension SearchViewController: UISearchBarDelegate {
             hasSearched = true
             searchResults = []
             
-            // 1 Gets reference to global queue
-            let queue = DispatchQueue.global()
+            // Create the URL object using the search text
             let url = self.iTunesURL(searchText: searchBar.text!)
-           
-            // 2 Use queue to execute data request asychronously
-            queue.async {
-                if let data = self.performStoreRequest(with: url) {
-                    self.searchResults = self.parse(data: data)
-                    self.searchResults.sort(by: <)
-                    
-                    // 3 Dismiss LoadingCell, Reload Table View
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                        self.tableView.reloadData()
-                    }
-                    return
+            let session = URLSession.shared
+            
+            // Create a data task using URLSession to fetch contents of the URL.
+            let dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+                if let error = error {
+                    print("Failure \(error)")
+                } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    print("Success! \(data!)")
+                } else {
+                    print("Failure \(response)")
                 }
-            }
+            })
+            // Sends the request to the server on a background thread
+            dataTask.resume()
         }
     }
     
-    //    Allows the item to indicate its top position
+    // Allows the item to indicate its top position
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
