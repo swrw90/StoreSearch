@@ -47,6 +47,9 @@
                                                 <segment title="Software"/>
                                                 <segment title="E-books"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="segmentChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="mb1-kc-V5J"/>
+                                            </connections>
                                         </segmentedControl>
                                     </navigationItem>
                                 </items>

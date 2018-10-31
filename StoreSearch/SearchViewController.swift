@@ -22,7 +22,7 @@ class SearchViewController: UIViewController {
         searchBar.becomeFirstResponder()
         
         // Add 64-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
         
         // Register SearchResultCell nib for use
         var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
@@ -35,6 +35,12 @@ class SearchViewController: UIViewController {
         // Register LoadingCell nib for use
         cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
+    }
+    
+    
+    //MARK: - Actions
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        print("Segment Changed: \(sender.selectedSegmentIndex)")
     }
     
     
