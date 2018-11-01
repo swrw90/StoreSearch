@@ -9,6 +9,7 @@
 import UIKit
 
 class SearchResultCell: UITableViewCell {
+    var downloadTask: URLSessionDownloadTask?
     
     //    MARK: - Outlets
     @IBOutlet weak var nameLabel: UILabel!
@@ -29,6 +30,7 @@ class SearchResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    
     //    MARK: - Public Methods
     func configure(for result: SearchResult) {
         nameLabel.text = result.name
@@ -37,6 +39,12 @@ class SearchResultCell: UITableViewCell {
             artistNameLabel.text = "Unknown"
         } else {
             artistNameLabel.text = String(format: "%@ (%@)", result.artistName, result.type)
+        }
+        
+        // Tells the UIImageView to load the image from imageSmall and to place it in the cell’s image view
+        artworkImageView.image = UIImage(named: "Placeholder")
+        if let smallURL = URL(string: result.imageSmall) {
+            downloadTask = artworkImageView.loadImage(url: smallURL)
         }
     }
 }
