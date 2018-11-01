@@ -13,6 +13,7 @@ class SearchViewController: UIViewController {
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
+    var dataTask: URLSessionDataTask?
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -20,8 +21,8 @@ class SearchViewController: UIViewController {
         tableView.rowHeight = 80
         searchBar.becomeFirstResponder()
         
-        // Add 64-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        // Add 108-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
+        tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
         
         // Register SearchResultCell nib for use
         var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
@@ -37,9 +38,16 @@ class SearchViewController: UIViewController {
     }
     
     
+    //MARK: - Actions
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        performSearch()
+    }
+    
+    
     //MARK: - Outlets
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     
     //MARK: - TableViewCellIdentifiers
@@ -54,36 +62,61 @@ extension SearchViewController: UISearchBarDelegate {
     
     // On click begin data request for search bar input
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSearch()
+    }
+    
+    // On click begin data request
+    func performSearch() {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
+            dataTask?.cancel()
             
             isLoading = true
             tableView.reloadData()
             hasSearched = true
             searchResults = []
             
-            // 1 Gets reference to global queue
-            let queue = DispatchQueue.global()
-            let url = self.iTunesURL(searchText: searchBar.text!)
-           
-            // 2 Use queue to execute data request asychronously
-            queue.async {
-                if let data = self.performStoreRequest(with: url) {
-                    self.searchResults = self.parse(data: data)
-                    self.searchResults.sort(by: <)
+            // Create the URL object using the search text
+            let url = self.iTunesURL(searchText: searchBar.text!, category: segmentedControl.selectedSegmentIndex)
+            let session = URLSession.shared
+            
+            // Create a data task using URLSession to fetch contents of the URL.
+            dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
+                
+                // When a data task gets cancelled, its completion handler is still invoked but with an Error object that has error code -999
+                if let error = error as NSError?, error.code == -999 {
+                    return //Search was cancelled 
+                } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     
-                    // 3 Dismiss LoadingCell, Reload Table View
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                        self.tableView.reloadData()
+                    // Unwrap and parse data into SearchResult objects
+                    if let data = data {
+                        self.searchResults = self.parse(data: data)
+                        self.searchResults.sort(by: <)
+                        
+                        // Dismiss LoadingCell, Reload tableView
+                        DispatchQueue.main.async {
+                            self.isLoading = false
+                            self.tableView.reloadData()
+                        }
+                        return
                     }
-                    return
+                } else {
+                    print("Failure \(response!)")
                 }
-            }
+                // Handle error
+                DispatchQueue.main.async {
+                    self.hasSearched = false
+                    self.isLoading = false
+                    self.tableView.reloadData()
+                    self.showNetworkError()
+                }
+            })
+            // Sends the request to the server on a background thread
+            dataTask?.resume()
         }
     }
     
-    //    Allows the item to indicate its top position
+    // Allows the item to indicate its top position
     func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
@@ -118,14 +151,9 @@ extension SearchViewController: UITableViewDataSource {
             return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-            
             let searchResult = searchResults[indexPath.row]
-            cell.nameLabel.text = searchResult.name
-            if searchResult.artistName.isEmpty {
-                cell.artistNameLabel.text = "Unknown"
-            } else {
-                cell.artistNameLabel.text = String(format: "%@ (%@)", searchResult.artistName, searchResult.type)
-            }
+            
+            cell.configure(for: searchResult)
             return cell
         }
     }
@@ -146,10 +174,18 @@ extension SearchViewController: UITableViewDataSource {
     //    MARK: - Private Methods
     
     //    Create a new string where all the special characters are escaped, use that string for the search term
-    func iTunesURL(searchText: String) -> URL {
-        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+    func iTunesURL(searchText: String, category: Int) -> URL {
+        let kind: String
         
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@&limit=200", encodedText)
+        switch category {
+        case 1: kind = "musicTrack"
+        case 2: kind = "software"
+        case 3: kind = "ebook"
+        default: kind = ""
+        }
+        
+        let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        let urlString = "https://itunes.apple.com/search?" + "term=\(encodedText)&limit=200&entity=\(kind)"
         let url = URL(string: urlString)
         return url!
     }
