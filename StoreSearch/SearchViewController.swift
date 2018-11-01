@@ -124,7 +124,7 @@ extension SearchViewController: UISearchBarDelegate {
 
 
 //MARK: - TableView Data Source
-extension SearchViewController: UITableViewDataSource {
+extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLoading {
             return 1
@@ -223,3 +223,4 @@ extension SearchViewController: UITableViewDataSource {
         present(alert, animated: true, completion: nil)
     }
 }
+
