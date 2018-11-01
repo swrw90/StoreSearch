@@ -30,6 +30,13 @@ class SearchResultCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    // Cancel to prevent cell from being reused with previously downloaded image
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        downloadTask?.cancel()
+        downloadTask = nil
+    }
+    
     
     //    MARK: - Public Methods
     func configure(for result: SearchResult) {
