@@ -9,7 +9,14 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        modalPresentationStyle = .custom
+        transitioningDelegate = self
+    }
 
+    //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
