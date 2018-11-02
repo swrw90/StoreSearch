@@ -10,6 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
     var searchResult: SearchResult!
+    var downloadTask: URLSessionDownloadTask?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -50,6 +51,12 @@ class DetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func openInStore() {
+        if let url = URL(string: searchResult.storeURL) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     // MARK:- Helper Methods
     func updateUI() {
         nameLabel.text = searchResult.name
@@ -79,7 +86,18 @@ class DetailViewController: UIViewController {
         }
         
         priceButton.setTitle(priceText, for: .normal)
+        
+        // Get image
+        if let largeURL = URL(string: searchResult.imageLarge) {
+            downloadTask = artworkImageView.loadImage(url: largeURL)
+        }
     }
+    
+    deinit {
+        print("deinit \(self)")
+        downloadTask?.cancel()
+    }
+    
     
     /*
     // MARK: - Navigation
