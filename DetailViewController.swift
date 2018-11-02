@@ -21,6 +21,7 @@ class DetailViewController: UIViewController {
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.clear
         
         // PopUp View Styling
         view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
