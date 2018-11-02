@@ -116,4 +116,8 @@ extension DetailViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer( _ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return (touch.view === self.view)
     }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+            return BounceAnimationController()
+    }
 }
