@@ -145,10 +145,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDf-zT-iCE">
-                                        <rect key="frame" x="173" y="196" width="59" height="36"/>
+                                        <rect key="frame" x="173" y="202" width="59" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                        <state key="normal" title="$9.99"/>
+                                        <state key="normal" title="$9.99" backgroundImage="PriceButton"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="0.95163952464788737" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -157,6 +157,15 @@
                         <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="91M-xM-PgU"/>
                     </view>
+                    <connections>
+                        <outlet property="artistNameLabel" destination="ZiQ-eW-47q" id="Kl7-sF-K3c"/>
+                        <outlet property="artworkImageView" destination="hKt-ka-iGV" id="MxI-w7-HFn"/>
+                        <outlet property="genreLabel" destination="iwb-jm-AqE" id="JhF-24-14b"/>
+                        <outlet property="kindLabel" destination="0Ay-Yz-srx" id="rYX-WD-Mds"/>
+                        <outlet property="nameLabel" destination="nnn-m2-Yff" id="CyG-Sv-8zN"/>
+                        <outlet property="popupView" destination="Rly-4F-RCy" id="p48-0l-4N1"/>
+                        <outlet property="priceButton" destination="YDf-zT-iCE" id="o80-V2-sl4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NQu-si-snc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -165,5 +174,6 @@
     </scenes>
     <resources>
         <image name="CloseButton" width="15" height="15"/>
+        <image name="PriceButton" width="11" height="24"/>
     </resources>
 </document>
