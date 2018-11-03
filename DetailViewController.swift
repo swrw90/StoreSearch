@@ -59,6 +59,8 @@ class DetailViewController: UIViewController {
     }
     
     // MARK:- Helper Methods
+    
+    // Update popUpView content
     func updateUI() {
         nameLabel.text = searchResult.name
         
@@ -98,26 +100,22 @@ class DetailViewController: UIViewController {
         print("deinit \(self)")
         downloadTask?.cancel()
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension DetailViewController: UIGestureRecognizerDelegate {
+    
+    // Dismiss popUpView if pressed outside of popUpView
     func gestureRecognizer( _ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return (touch.view === self.view)
     }
     
+    // Call bounceAnimationController for animation when popUpView is presented
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
             return BounceAnimationController()
+    }
+    // Calls slideOutAnimationController to animate popUpView dismiss
+    func animationController(forDismissed dismissed:
+        UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return SlideOutAnimationController()
     }
 }

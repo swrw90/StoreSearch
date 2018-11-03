@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// Handles BounceAnimation for when popUpView is presented
 class BounceAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
