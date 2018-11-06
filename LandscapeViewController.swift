@@ -119,6 +119,18 @@ class LandscapeViewController: UIViewController {
             height: scrollView.bounds.size.height)
         
         print("Number of pages: \(numPages)")
+        
+        pageControl.numberOfPages = numPages
+        pageControl.currentPage = 0
     }
+}
+
+extension LandscapeViewController: UIScrollViewDelegate {
     
+    //  Find index of current page is via the contentOffset property of the scroll view, determines how far the scroll view has been scrolled
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let width = scrollView.bounds.size.width
+        let page = Int((scrollView.contentOffset.x + width / 2) / width)
+        pageControl.currentPage = page
+    }
 }
