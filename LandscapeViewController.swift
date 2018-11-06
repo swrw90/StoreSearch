@@ -46,6 +46,8 @@ var searchResults = [SearchResult]()
     
     
     // MARK:- Private Methods
+    
+    // Decide on how big the grid squares should be and how many squares are needed to fill up each page
     private func tileButtons(_ searchResults: [SearchResult]) {
         var columnsPerPage = 5
         var rowsPerPage = 3
@@ -77,7 +79,14 @@ var searchResults = [SearchResult]()
             break
         }
         
+        
         // TODO: more to come here
+        
+        // Button size
+        let buttonWidth: CGFloat = 82
+        let buttonHeight: CGFloat = 82
+        let paddingHorz = (itemWidth - buttonWidth)/2
+        let paddingVert = (itemHeight - buttonHeight)/2
     }
 
 }
