@@ -45,6 +45,13 @@ class LandscapeViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     
     
+    
+    // MARK:- Actions
+    @IBAction func pageChanged(_ sender: UIPageControl) {
+        scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
+    }
+    
+    
     // MARK:- Private Methods
     
     // Decide on how big the grid squares should be and how many squares are needed to fill up each page
