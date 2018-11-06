@@ -18,6 +18,7 @@
 		C76A2929218CFF3500D10C20 /* SlideOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A2928218CFF3500D10C20 /* SlideOutAnimationController.swift */; };
 		C76A292B218E0F4900D10C20 /* LandscapeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A292A218E0F4900D10C20 /* LandscapeViewController.swift */; };
 		C76A292D2191361300D10C20 /* FadeOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A292C2191361300D10C20 /* FadeOutAnimationController.swift */; };
+		C76A292F219175DB00D10C20 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A292E219175DB00D10C20 /* Search.swift */; };
 		C7925DE1218062460040F858 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DE0218062460040F858 /* AppDelegate.swift */; };
 		C7925DE3218062460040F858 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7925DE2218062460040F858 /* SearchViewController.swift */; };
 		C7925DE6218062460040F858 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7925DE4218062460040F858 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		C76A2928218CFF3500D10C20 /* SlideOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideOutAnimationController.swift; sourceTree = "<group>"; };
 		C76A292A218E0F4900D10C20 /* LandscapeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeViewController.swift; sourceTree = "<group>"; };
 		C76A292C2191361300D10C20 /* FadeOutAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeOutAnimationController.swift; sourceTree = "<group>"; };
+		C76A292E219175DB00D10C20 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		C7925DDD218062460040F858 /* StoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7925DE0218062460040F858 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7925DE2218062460040F858 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		C7925DD4218062460040F858 = {
 			isa = PBXGroup;
 			children = (
+				C76A292E219175DB00D10C20 /* Search.swift */,
 				C76A2924218CFA8E00D10C20 /* GradientView.swift */,
 				C76A2926218CFBCF00D10C20 /* BounceAnimationController.swift */,
 				C76A2928218CFF3500D10C20 /* SlideOutAnimationController.swift */,
@@ -173,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C76A292F219175DB00D10C20 /* Search.swift in Sources */,
 				C7925DE3218062460040F858 /* SearchViewController.swift in Sources */,
 				C76A2923218ABFA100D10C20 /* DimmingPresentationController.swift in Sources */,
 				C76A292D2191361300D10C20 /* FadeOutAnimationController.swift in Sources */,
