@@ -14,6 +14,7 @@ class DimmingPresentationController: UIPresentationController {
         return false
     }
     
+    // Create the GradientView object, make it as big as the containerView, insert it behind everything else in this container view
     lazy var dimmingView = GradientView(frame: CGRect.zero)
     
     override func presentationTransitionWillBegin() {

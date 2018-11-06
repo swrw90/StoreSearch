@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     var hasSearched = false
     var isLoading = false
     var dataTask: URLSessionDataTask?
+    var landscapeVC: LandscapeViewController?
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -35,6 +36,56 @@ class SearchViewController: UIViewController {
         // Register LoadingCell nib for use
         cellNib = UINib(nibName: TableViewCellIdentifiers.loadingCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
+    }
+    
+    
+    func showLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
+        // 1 Prevent 2 landscape views showing simoltaneously, return if landscape is already present
+        guard landscapeVC == nil else { return }
+        // 2 Instntiate landscapeVC
+        landscapeVC = storyboard!.instantiateViewController(withIdentifier: "LandscapeViewController") as? LandscapeViewController
+        if let controller = landscapeVC {
+            controller.searchResults = searchResults
+            // 3 Define size & position of new landscapeVC, frame of landscapeVC must be equal to superview SearchViewController bounds
+            controller.view.frame = view.bounds
+            controller.view.alpha = 0
+            // 4 Place new view on top, define new view as manager of the screen, tell new VC it has a parentVC
+            view.addSubview(controller.view)
+            addChild(controller)
+            coordinator.animate(alongsideTransition: { _ in
+                controller.view.alpha = 1
+                self.searchBar.resignFirstResponder()
+                if self.presentedViewController != nil {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }, completion: { _ in
+                controller.didMove(toParent: self)
+            })
+        }
+    }
+    
+    func hideLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
+        if let controller = landscapeVC {
+            controller.willMove(toParent: nil)
+             coordinator.animate(alongsideTransition: { _ in
+                controller.view.alpha = 0
+            }, completion: { _ in
+                controller.view.removeFromSuperview()
+                controller.removeFromParent()
+                self.landscapeVC = nil
+            })
+        }
+    }
+    
+    // Whenever a trait collection is modified willTransition updates UI
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        // Detects new rotation
+        switch newCollection.verticalSizeClass {
+        case .compact: showLandscape(with: coordinator)
+        case .regular, .unspecified: hideLandscape(with: coordinator)
+        }
     }
     
     

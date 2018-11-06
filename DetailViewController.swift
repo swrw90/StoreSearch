@@ -37,6 +37,12 @@ class DetailViewController: UIViewController {
         }
     }
     
+    enum AnimationStyle {
+        case slide
+        case fade
+    }
+    
+    var dismissStyle = AnimationStyle.fade
     
     //MARK: - Outlets
     @IBOutlet weak var popupView: UIView!
@@ -50,6 +56,7 @@ class DetailViewController: UIViewController {
     // MARK:- Actions
     @IBAction func close() {
         dismiss(animated: true, completion: nil)
+        dismissStyle = .slide 
     }
     
     @IBAction func openInStore() {
@@ -114,8 +121,12 @@ extension DetailViewController: UIGestureRecognizerDelegate {
             return BounceAnimationController()
     }
     // Calls slideOutAnimationController to animate popUpView dismiss
-    func animationController(forDismissed dismissed:
-        UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return SlideOutAnimationController()
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        switch dismissStyle {
+        case .slide:
+            return SlideOutAnimationController()
+        case .fade:
+            return FadeOutAnimationController()
+        }
     }
 }
