@@ -48,7 +48,10 @@ class LandscapeViewController: UIViewController {
     
     // MARK:- Actions
     @IBAction func pageChanged(_ sender: UIPageControl) {
-        scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                        self.scrollView.contentOffset = CGPoint( x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
+        },
+                       completion: nil)
     }
     
     
@@ -86,9 +89,6 @@ class LandscapeViewController: UIViewController {
             break
         }
         
-        
-        // TODO: more to come here
-        
         // Button size
         let buttonWidth: CGFloat = 82
         let buttonHeight: CGFloat = 82
@@ -101,9 +101,8 @@ class LandscapeViewController: UIViewController {
         var x = marginX
         for (index, result) in searchResults.enumerated() {
             // 1 Create the UIButton object
-            let button = UIButton(type: .system)
-            button.backgroundColor = UIColor.white
-            button.setTitle("\(index)", for: .normal)
+            let button = UIButton(type: .custom)
+            button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
             // 2 Convert row to a CGFloat
             button.frame = CGRect(x: x + paddingHorz, y: marginY + CGFloat(row)*itemHeight + paddingVert, width: buttonWidth, height: buttonHeight)
             // 3 Add the new button object to the UIScrollView as a subview
@@ -129,6 +128,27 @@ class LandscapeViewController: UIViewController {
         
         pageControl.numberOfPages = numPages
         pageControl.currentPage = 0
+    }
+    
+    private func downloadImage(for searchResult: SearchResult, andPlaceOn button: UIButton) {
+        // Get a URL instance
+        if let url = URL(string: searchResult.imageSmall) {
+            // Create a download task
+            let task = URLSession.shared.downloadTask(with: url) {
+                [weak button] url, response, error in
+                // Put the downloaded file into a UIImage
+                if error == nil, let url = url,
+                    let data = try? Data(contentsOf: url),
+                    let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        if let button = button {
+                            button.setImage(image, for: .normal)
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
     }
 }
 
