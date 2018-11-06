@@ -45,6 +45,7 @@ class SearchViewController: UIViewController {
         // 2 Instntiate landscapeVC
         landscapeVC = storyboard!.instantiateViewController(withIdentifier: "LandscapeViewController") as? LandscapeViewController
         if let controller = landscapeVC {
+            controller.searchResults = searchResults
             // 3 Define size & position of new landscapeVC, frame of landscapeVC must be equal to superview SearchViewController bounds
             controller.view.frame = view.bounds
             controller.view.alpha = 0
