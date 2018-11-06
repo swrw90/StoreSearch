@@ -11,6 +11,7 @@ import UIKit
 class LandscapeViewController: UIViewController {
     var searchResults = [SearchResult]()
     private var firstTime = true
+    private var downloads = [URLSessionDownloadTask]()
     
     //    MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -49,7 +50,7 @@ class LandscapeViewController: UIViewController {
     // MARK:- Actions
     @IBAction func pageChanged(_ sender: UIPageControl) {
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
-                        self.scrollView.contentOffset = CGPoint( x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
+            self.scrollView.contentOffset = CGPoint( x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
         },
                        completion: nil)
     }
@@ -102,6 +103,7 @@ class LandscapeViewController: UIViewController {
         for (index, result) in searchResults.enumerated() {
             // 1 Create the UIButton object
             let button = UIButton(type: .custom)
+            downloadImage(for: result, andPlaceOn: button)
             button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
             // 2 Convert row to a CGFloat
             button.frame = CGRect(x: x + paddingHorz, y: marginY + CGFloat(row)*itemHeight + paddingVert, width: buttonWidth, height: buttonHeight)
@@ -128,6 +130,7 @@ class LandscapeViewController: UIViewController {
         
         pageControl.numberOfPages = numPages
         pageControl.currentPage = 0
+        
     }
     
     private func downloadImage(for searchResult: SearchResult, andPlaceOn button: UIButton) {
@@ -148,9 +151,17 @@ class LandscapeViewController: UIViewController {
                 }
             }
             task.resume()
+            downloads.append(task)
+        }
+    }
+    deinit {
+        print("deinit \(self)")
+        for task in downloads {
+            task.cancel()
         }
     }
 }
+
 
 extension LandscapeViewController: UIScrollViewDelegate {
     
