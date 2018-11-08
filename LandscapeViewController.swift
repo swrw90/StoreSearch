@@ -44,7 +44,7 @@ class LandscapeViewController: UIViewController {
             case .loading:
                 showSpinner()
             case .noResults:
-                break
+                showNothingFoundLabel()
             case .results(let list):
                 tileButtons(list)
             }
@@ -66,13 +66,20 @@ class LandscapeViewController: UIViewController {
                        completion: nil)
     }
     
+    
+    @objc func buttonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "ShowDetail", sender: sender)
+    }
+    
     // MARK:- Public Methods
     func searchResultsReceived() {
         hideSpinner()
         
         switch search.state {
-        case .notSearchedYet, .loading, .noResults:
+        case .notSearchedYet, .loading:
             break
+        case .noResults:
+            showNothingFoundLabel()
         case .results(let list):
             tileButtons(list)
         }
@@ -131,6 +138,8 @@ class LandscapeViewController: UIViewController {
             // 1 Create the UIButton object
             let button = UIButton(type: .custom)
             downloadImage(for: result, andPlaceOn: button)
+            button.tag = 2000 + index
+            button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
             button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
             // 2 Convert row to a CGFloat
             button.frame = CGRect(x: x + paddingHorz, y: marginY + CGFloat(row)*itemHeight + paddingVert, width: buttonWidth, height: buttonHeight)
@@ -217,8 +226,19 @@ class LandscapeViewController: UIViewController {
         label.center = CGPoint(x: scrollView.bounds.midX, y: scrollView.bounds.midY)
         view.addSubview(label)
     }
+    
+    
+    // MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            if case .results(let list) = search.state {
+                let detailViewController = segue.destination as! DetailViewController
+                let searchResult = list[(sender as! UIButton).tag - 2000]
+                detailViewController.searchResult = searchResult
+            }
+        }
+    }
 }
-
 
 extension LandscapeViewController: UIScrollViewDelegate {
     
