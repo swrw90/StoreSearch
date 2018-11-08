@@ -114,30 +114,32 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func performSearch() {
-        search.performSearch(for: searchBar.text!, category: segmentedControl.selectedSegmentIndex, completion: { success in
-            if !success {
-                self.showNetworkError()
-            }
-            self.tableView.reloadData()
-        })
-        tableView.reloadData()
-        searchBar.resignFirstResponder()
+        if let category = Search.Category(rawValue: segmentedControl.selectedSegmentIndex) {
+            search.performSearch(for: searchBar.text!,category: category, completion: {  success in
+                if !success {
+                    self.showNetworkError()
+                }
+                self.tableView.reloadData()
+            })
+            tableView.reloadData()
+            searchBar.resignFirstResponder()
+        }
     }
-
-// Allows the item to indicate its top position
-func position(for bar: UIBarPositioning) -> UIBarPosition {
-    return .topAttached
-}
-
-// MARK:- Navigation
-override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "ShowDetail" {
-        let detailViewController = segue.destination as! DetailViewController
-        let indexPath = sender as! IndexPath
-        let searchResult = search.searchResults[indexPath.row]
-        detailViewController.searchResult = searchResult
+    
+    // Allows the item to indicate its top position
+    func position(for bar: UIBarPositioning) -> UIBarPosition {
+        return .topAttached
     }
-}
+    
+    // MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            let detailViewController = segue.destination as! DetailViewController
+            let indexPath = sender as! IndexPath
+            let searchResult = search.searchResults[indexPath.row]
+            detailViewController.searchResult = searchResult
+        }
+    }
 }
 
 
