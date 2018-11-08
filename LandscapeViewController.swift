@@ -165,11 +165,21 @@ class LandscapeViewController: UIViewController {
             downloads.append(task)
         }
     }
+    
     deinit {
         print("deinit \(self)")
         for task in downloads {
             task.cancel()
         }
+    }
+    
+//    Create a new UIActivityIndicatorView object, put it in the center of the screen, starts animation.
+    private func showSpinner() {
+        let spinner = UIActivityIndicatorView(style: .whiteLarge)
+        spinner.center = CGPoint(x: scrollView.bounds.midX + 0.5, y: scrollView.bounds.midY + 0.5)
+        spinner.tag = 1000
+        view.addSubview(spinner)
+        spinner.startAnimating()
     }
 }
 
