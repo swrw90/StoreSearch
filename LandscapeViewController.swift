@@ -42,7 +42,7 @@ class LandscapeViewController: UIViewController {
             case .notSearchedYet:
                 break
             case .loading:
-                break
+                showSpinner()
             case .noResults:
                 break
             case .results(let list):
@@ -64,6 +64,22 @@ class LandscapeViewController: UIViewController {
             self.scrollView.contentOffset = CGPoint( x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
         },
                        completion: nil)
+    }
+    
+    // MARK:- Public Methods
+    func searchResultsReceived() {
+        hideSpinner()
+        
+        switch search.state {
+        case .notSearchedYet, .loading, .noResults:
+            break
+        case .results(let list):
+            tileButtons(list)
+        }
+    }
+    
+    private func hideSpinner() {
+        view.viewWithTag(1000)?.removeFromSuperview()
     }
     
     
