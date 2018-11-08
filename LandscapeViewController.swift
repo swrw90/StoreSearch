@@ -9,9 +9,10 @@
 import UIKit
 
 class LandscapeViewController: UIViewController {
-    var searchResults = [SearchResult]()
+    var search: Search!
     private var firstTime = true
     private var downloads = [URLSessionDownloadTask]()
+    
     
     //    MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -36,7 +37,7 @@ class LandscapeViewController: UIViewController {
         
         if firstTime {
             firstTime = false
-            tileButtons(searchResults)
+            tileButtons(search.searchResults)
         }
     }
     
