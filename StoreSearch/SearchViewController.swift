@@ -146,33 +146,44 @@ extension SearchViewController: UISearchBarDelegate {
 //MARK: - TableView Data Source
 extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if search.isLoading {
-            return 1  // Loading...
-        } else if !search.hasSearched {
-            return 0  // Not searched yet
-        } else if search.searchResults.count == 0 {
-            return 1  // Nothing Found
-        } else {
-            return search.searchResults.count
+        switch search.state {
+        case .notSearchedYet:
+            return 0
+        case .loading:
+            return 1
+        case .noResults:
+            return 1
+        case .results(let list):
+            return list.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if search.isLoading {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.loadingCell, for: indexPath)
+        switch search.state {
+        case .notSearchedYet:
+            fatalError("Should never get here")
             
-            // Find ActivityIndicator by its tag and begin spinner animation
-            let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
+        case .loading:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: TableViewCellIdentifiers.loadingCell,
+                for: indexPath)
+            
+            let spinner = cell.viewWithTag(100) as!
+            UIActivityIndicatorView
             spinner.startAnimating()
-            
             return cell
             
-        } else if search.searchResults.count == 0 {
-            return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
-            let searchResult = search.searchResults[indexPath.row]
+        case .noResults:
+            return tableView.dequeueReusableCell(
+                withIdentifier: TableViewCellIdentifiers.nothingFoundCell,
+                for: indexPath)
             
+        case .results(let list):
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: TableViewCellIdentifiers.searchResultCell,
+                for: indexPath) as! SearchResultCell
+            
+            let searchResult = list[indexPath.row]
             cell.configure(for: searchResult)
             return cell
         }
