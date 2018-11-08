@@ -66,6 +66,9 @@ class SearchViewController: UIViewController {
             controller.willMove(toParent: nil)
             coordinator.animate(alongsideTransition: { _ in
                 controller.view.alpha = 0
+                if self.presentedViewController != nil {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }, completion: { _ in
                 controller.view.removeFromSuperview()
                 controller.removeFromParent()
@@ -229,59 +232,3 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         present(alert, animated: true, completion: nil)
     }
 }
-
-
-
-
-
-
-//// On click begin data request
-//func performSearch() {
-//    if !searchBar.text!.isEmpty {
-//        searchBar.resignFirstResponder()
-//        dataTask?.cancel()
-//
-//        isLoading = true
-//        tableView.reloadData()
-//        hasSearched = true
-//        searchResults = []
-//
-//        // Create the URL object using the search text
-//        let url = self.iTunesURL(searchText: searchBar.text!, category: segmentedControl.selectedSegmentIndex)
-//        let session = URLSession.shared
-//
-//        // Create a data task using URLSession to fetch contents of the URL.
-//        dataTask = session.dataTask(with: url, completionHandler: { data, response, error in
-//
-//            // When a data task gets cancelled, its completion handler is still invoked but with an Error object that has error code -999
-//            if let error = error as NSError?, error.code == -999 {
-//                return //Search was cancelled
-//            } else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-//
-//                // Unwrap and parse data into SearchResult objects
-//                if let data = data {
-//                    self.searchResults = self.parse(data: data)
-//                    self.searchResults.sort(by: <)
-//
-//                    // Dismiss LoadingCell, Reload tableView
-//                    DispatchQueue.main.async {
-//                        self.isLoading = false
-//                        self.tableView.reloadData()
-//                    }
-//                    return
-//                }
-//            } else {
-//                print("Failure \(response!)")
-//            }
-//            // Handle error
-//            DispatchQueue.main.async {
-//                self.hasSearched = false
-//                self.isLoading = false
-//                self.tableView.reloadData()
-//                self.showNetworkError()
-//            }
-//        })
-//        // Sends the request to the server on a background thread
-//        dataTask?.resume()
-//    }
-//}
