@@ -197,6 +197,26 @@ class LandscapeViewController: UIViewController {
         view.addSubview(spinner)
         spinner.startAnimating()
     }
+    
+    private func showNothingFoundLabel() {
+        // Create a UILabel object and give it text and a color, make the lable transparent
+        let label = UILabel(frame: CGRect.zero)
+        label.text = "Nothing Found"
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.clear
+        
+        // Resize itself to the optimal size
+        label.sizeToFit()
+        
+        // Size and center label
+        var rect = label.frame
+        rect.size.width = ceil(rect.size.width/2) * 2    // make even
+        rect.size.height = ceil(rect.size.height/2) * 2  // make even
+        label.frame = rect
+        
+        label.center = CGPoint(x: scrollView.bounds.midX, y: scrollView.bounds.midY)
+        view.addSubview(label)
+    }
 }
 
 
