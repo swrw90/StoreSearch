@@ -170,9 +170,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             fatalError("Should never get here")
             
         case .loading:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: TableViewCellIdentifiers.loadingCell,
-                for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.loadingCell,for: indexPath)
             
             let spinner = cell.viewWithTag(100) as!
             UIActivityIndicatorView
