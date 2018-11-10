@@ -10,8 +10,23 @@ import UIKit
 
 // Manages SearchBar and displaying list of SearchResult objects
 class SearchViewController: UIViewController {
-    private let search = Search()
+
+    //MARK: - TableViewCellIdentifiers
+    struct TableViewCellIdentifiers {
+        static let searchResultCell = "SearchResultCell"
+        static let nothingFoundCell = "NothingFoundCell"
+        static let loadingCell = "LoadingCell"
+    }
+
+    //MARK: - Outlets
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     var landscapeVC: LandscapeViewController?
+    
+    private let search = Search()
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -35,6 +50,18 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
     }
     
+    // Whenever a trait collection is modified willTransition updates UI
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+        // Detects new rotation
+        switch newCollection.verticalSizeClass {
+        case .compact: showLandscape(with: coordinator)
+        case .regular, .unspecified: hideLandscape(with: coordinator)
+        }
+    }
+    
+    // MARK: - UI Code for landscape
     
     func showLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
         // 1 Prevent 2 landscape views showing simoltaneously, return if landscape is already present
@@ -77,35 +104,11 @@ class SearchViewController: UIViewController {
         }
     }
     
-    // Whenever a trait collection is modified willTransition updates UI
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        
-        // Detects new rotation
-        switch newCollection.verticalSizeClass {
-        case .compact: showLandscape(with: coordinator)
-        case .regular, .unspecified: hideLandscape(with: coordinator)
-        }
-    }
-    
-    
+
     //MARK: - Actions
+    
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
         performSearch()
-    }
-    
-    
-    //MARK: - Outlets
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
-    
-    //MARK: - TableViewCellIdentifiers
-    struct TableViewCellIdentifiers {
-        static let searchResultCell = "SearchResultCell"
-        static let nothingFoundCell = "NothingFoundCell"
-        static let loadingCell = "LoadingCell"
     }
 }
 
@@ -118,7 +121,7 @@ extension SearchViewController: UISearchBarDelegate {
     
     func performSearch() {
         if let category = Search.Category(rawValue: segmentedControl.selectedSegmentIndex) {
-            search.performSearch(for: searchBar.text!,category: category, completion: {  success in
+            search.performSearch(for: searchBar.text!,category: category, completion: { success in
                 if !success {
                     self.showNetworkError()
                 }

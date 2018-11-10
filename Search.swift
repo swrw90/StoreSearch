@@ -48,7 +48,7 @@ class Search {
     }
     
     // Convert response data to ResultArray object
-    private  func parse(data: Data) -> [SearchResult] {
+    private func parse(data: Data) -> [SearchResult] {
         do {
             let decoder = JSONDecoder()
             let result = try decoder.decode(ResultArray.self, from:data)
@@ -59,6 +59,14 @@ class Search {
         }
     }
     
+    
+    
+    /// Performs search. Service call.
+    ///
+    /// - Parameters:
+    ///   - text: text to search for.
+    ///   - category: category of the thing you're searching for?
+    ///   - completion: completion call after the network is completed.
     func performSearch(for text: String, category: Category, completion: @escaping SearchComplete) {
         if !text.isEmpty {
             dataTask?.cancel()
@@ -68,16 +76,18 @@ class Search {
             let url = iTunesURL(searchText: text, category: category)
             let session = URLSession.shared
             
-            dataTask = session.dataTask(with: url, completionHandler: {
+            dataTask = session.dataTask(with: url, completionHandler: { [weak self]
                 data, response, error in
                 var newState = State.notSearchedYet
                 var success = false
                 // Was the search cancelled?
                 if let error = error as NSError?, error.code == -999 {
+                    self?.state = newState
                     return
                 }
+                
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let data = data {
-                    var searchResults = self.parse(data: data)
+                    guard var searchResults = self?.parse(data: data) else { return }
                     if searchResults.isEmpty {
                         newState = .noResults
                     } else {
@@ -86,6 +96,9 @@ class Search {
                     }
                     success = true
                 }
+                
+                self?.state = newState
+                
                 DispatchQueue.main.async {
                     completion(success)
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
