@@ -9,9 +9,10 @@
 import UIKit
 
 class LandscapeViewController: UIViewController {
-    var searchResults = [SearchResult]()
+    var search: Search!
     private var firstTime = true
     private var downloads = [URLSessionDownloadTask]()
+    
     
     //    MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -36,7 +37,17 @@ class LandscapeViewController: UIViewController {
         
         if firstTime {
             firstTime = false
-            tileButtons(searchResults)
+            
+            switch search.state {
+            case .notSearchedYet:
+                break
+            case .loading:
+                showSpinner()
+            case .noResults:
+                showNothingFoundLabel()
+            case .results(let list):
+                tileButtons(list)
+            }
         }
     }
     
@@ -53,6 +64,29 @@ class LandscapeViewController: UIViewController {
             self.scrollView.contentOffset = CGPoint( x: self.scrollView.bounds.size.width * CGFloat(sender.currentPage), y: 0)
         },
                        completion: nil)
+    }
+    
+    
+    @objc func buttonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "ShowDetail", sender: sender)
+    }
+    
+    // MARK:- Public Methods
+    func searchResultsReceived() {
+        hideSpinner()
+        
+        switch search.state {
+        case .notSearchedYet, .loading:
+            break
+        case .noResults:
+            showNothingFoundLabel()
+        case .results(let list):
+            tileButtons(list)
+        }
+    }
+    
+    private func hideSpinner() {
+        view.viewWithTag(1000)?.removeFromSuperview()
     }
     
     
@@ -104,6 +138,8 @@ class LandscapeViewController: UIViewController {
             // 1 Create the UIButton object
             let button = UIButton(type: .custom)
             downloadImage(for: result, andPlaceOn: button)
+            button.tag = 2000 + index
+            button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
             button.setBackgroundImage(UIImage(named: "LandscapeButton"), for: .normal)
             // 2 Convert row to a CGFloat
             button.frame = CGRect(x: x + paddingHorz, y: marginY + CGFloat(row)*itemHeight + paddingVert, width: buttonWidth, height: buttonHeight)
@@ -154,14 +190,55 @@ class LandscapeViewController: UIViewController {
             downloads.append(task)
         }
     }
+    
     deinit {
         print("deinit \(self)")
         for task in downloads {
             task.cancel()
         }
     }
+    
+//    Create a new UIActivityIndicatorView object, put it in the center of the screen, starts animation.
+    private func showSpinner() {
+        let spinner = UIActivityIndicatorView(style: .whiteLarge)
+        spinner.center = CGPoint(x: scrollView.bounds.midX + 0.5, y: scrollView.bounds.midY + 0.5)
+        spinner.tag = 1000
+        view.addSubview(spinner)
+        spinner.startAnimating()
+    }
+    
+    private func showNothingFoundLabel() {
+        // Create a UILabel object and give it text and a color, make the lable transparent
+        let label = UILabel(frame: CGRect.zero)
+        label.text = "Nothing Found"
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.clear
+        
+        // Resize itself to the optimal size
+        label.sizeToFit()
+        
+        // Size and center label
+        var rect = label.frame
+        rect.size.width = ceil(rect.size.width/2) * 2    // make even
+        rect.size.height = ceil(rect.size.height/2) * 2  // make even
+        label.frame = rect
+        
+        label.center = CGPoint(x: scrollView.bounds.midX, y: scrollView.bounds.midY)
+        view.addSubview(label)
+    }
+    
+    
+    // MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetail" {
+            if case .results(let list) = search.state {
+                let detailViewController = segue.destination as! DetailViewController
+                let searchResult = list[(sender as! UIButton).tag - 2000]
+                detailViewController.searchResult = searchResult
+            }
+        }
+    }
 }
-
 
 extension LandscapeViewController: UIScrollViewDelegate {
     
