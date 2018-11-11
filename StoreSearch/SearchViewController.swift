@@ -181,9 +181,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
             
         case .noResults:
-            return tableView.dequeueReusableCell(
-                withIdentifier: TableViewCellIdentifiers.nothingFoundCell,
-                for: indexPath)
+            return tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.nothingFoundCell, for: indexPath)
             
         case .results(let list):
             let cell = tableView.dequeueReusableCell(
