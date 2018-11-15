@@ -8,6 +8,19 @@
 
 import Foundation
 
+private let typeForKind = [
+    "album": NSLocalizedString("Album", comment: "Localized kind: Album"),
+    "audiobook": NSLocalizedString("Audio Book", comment: "Localized kind: Audio Book"),
+    "book": NSLocalizedString("Book", comment: "Localized kind: Book"),
+    "ebook": NSLocalizedString("E-Book", comment: "Localized kind: E-Book"),
+    "feature-movie": NSLocalizedString("Movie", comment: "Localized kind: Feature Movie"),
+    "music-video": NSLocalizedString("Music Video", comment: "Localized kind: Music Video"),
+    "podcast": NSLocalizedString("Podcast", comment: "Localized kind: Podcast"),
+    "software": NSLocalizedString("App", comment: "Localized kind: Software"),
+    "song": NSLocalizedString("Song", comment: "Localized kind: Song"),
+    "tv-episode": NSLocalizedString("TV Episode", comment: "Localized kind: TV Episode"),
+]
+
 // Holds a count of results returned from request and array of request objects
 class ResultArray:Codable {
     var resultCount = 0
@@ -67,27 +80,18 @@ class SearchResult:Codable, CustomStringConvertible {
     // Returns string matching with the JSON type
     var type: String {
         let kind = self.kind ?? "audiobook"
-        switch kind {
-        case "album": return NSLocalizedString("Album", comment: "Localized Kind: Album")
-        case "audiobook": return NSLocalizedString("Audio Book", comment: "Localized Kind: Audio Book")
-        case "book": return NSLocalizedString("Book", comment: "Localized Kind: Book")
-        case "ebook": return NSLocalizedString("E-Book", comment: "Localized Kind: E-Book")
-        case "feature-movie": return NSLocalizedString("Movie", comment: "Localized Kind: Movie")
-        case "music-video": return NSLocalizedString("Music Video", comment: "Localized Kind: Music Video")
-        case "podcast": return NSLocalizedString("Podcast", comment: "Localized Kind: Podcast")
-        case "software": return NSLocalizedString("App", comment: "Localized Kind: App")
-        case "song": return NSLocalizedString("Song", comment: "Localized Kind: Song")
-        case "tv-episode": return NSLocalizedString("TV Episode", comment: "Localized Kind: TV Episode")
-        default:
-            return kind
-        }
+        return typeForKind[kind] ?? kind
     }
-    
     
     var description: String {
         return "Kind: \(kind ?? ""), Name: \(name), Artist Name: \(artistName)\n"
     }
+    
+    func kindForDisplay() -> String {
+        return typeForKind[kind!] ?? kind!
+    }
 }
+
 
 
 // Compare name of two SearchResults in ascending order

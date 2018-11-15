@@ -45,7 +45,7 @@ class SearchResultCell: UITableViewCell {
         if result.artistName.isEmpty {
             artistNameLabel.text = NSLocalizedString("Unknown", comment: "Artist Result: Unknown")
         } else {
-            artistNameLabel.text = String(format: "%@ (%@)", result.artistName, result.type)
+            artistNameLabel.text = String(format: NSLocalizedString("%@ (%@)", comment: "Format for artist name"), result.artistName, result.kindForDisplay())
         }
         
         // Tells the UIImageView to load the image from imageSmall and to place it in the cell’s image view
