@@ -33,6 +33,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         tableView.rowHeight = 80
         searchBar.becomeFirstResponder()
+        title = NSLocalizedString("Search", comment: "Split view master button")
         
         // Add 108-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
         tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)

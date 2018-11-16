@@ -25,8 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     var detailVC: DetailViewController {
-        return detailNavController.topViewController
-            as! DetailViewController
+        return detailNavController.topViewController as! DetailViewController
     }
 
 
@@ -41,7 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        customizeAppearance() 
+        customizeAppearance()
+        
+        // Looks up the Detail screen and puts a button into its navigation item for switching between the split view display modes
+        detailVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
+        
         return true
     }
 
