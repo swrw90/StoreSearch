@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         customizeAppearance()
-        
+        searchVC.splitViewDetail = detailVC
         // Looks up the Detail screen and puts a button into its navigation item for switching between the split view display modes
         detailVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
         

@@ -10,6 +10,8 @@ import UIKit
 
 // Manages SearchBar and displaying list of SearchResult objects
 class SearchViewController: UIViewController {
+    
+    weak var splitViewDetail: DetailViewController?
 
     //MARK: - TableViewCellIdentifiers
     struct TableViewCellIdentifiers {
@@ -195,9 +197,21 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+    func tableView(_ tableView: UITableView,
+                      didSelectRowAt indexPath: IndexPath) {
+        searchBar.resignFirstResponder()
+        
+        if view.window!.rootViewController!.traitCollection
+            .horizontalSizeClass == .compact {
+            tableView.deselectRow(at: indexPath, animated: true)
+            performSegue(withIdentifier: "ShowDetail",
+                         sender: indexPath)
+            
+        } else {
+            if case .results(let list) = search.state {
+                splitViewDetail?.searchResult = list[indexPath.row]
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
