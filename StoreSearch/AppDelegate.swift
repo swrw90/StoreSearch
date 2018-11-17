@@ -12,6 +12,21 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var splitVC: UISplitViewController {
+        return window!.rootViewController as! UISplitViewController
+    }
+    
+    var searchVC: SearchViewController {
+        return splitVC.viewControllers.first as! SearchViewController
+    }
+    
+    var detailNavController: UINavigationController {
+        return splitVC.viewControllers.last as! UINavigationController
+    }
+    
+    var detailVC: DetailViewController {
+        return detailNavController.topViewController as! DetailViewController
+    }
 
 
     // MARK:- Helper Methods
@@ -25,7 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        customizeAppearance() 
+        customizeAppearance()
+        searchVC.splitViewDetail = detailVC
+        // Looks up the Detail screen and puts a button into its navigation item for switching between the split view display modes
+        detailVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
+        
+        splitVC.delegate = self
         return true
     }
 
@@ -54,3 +74,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// Dismisses popover if master pane becomes visible
+extension AppDelegate: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewController.DisplayMode) {
+        print(#function)
+        if displayMode == .primaryOverlay {
+            svc.dismiss(animated: true, completion: nil)
+        }
+    }
+}

@@ -10,6 +10,8 @@ import UIKit
 
 // Manages SearchBar and displaying list of SearchResult objects
 class SearchViewController: UIViewController {
+    
+    weak var splitViewDetail: DetailViewController?
 
     //MARK: - TableViewCellIdentifiers
     struct TableViewCellIdentifiers {
@@ -32,7 +34,11 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
-        searchBar.becomeFirstResponder()
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            searchBar.becomeFirstResponder()
+            title = NSLocalizedString("Search", comment: "Split view master button")
+        }
+        
         
         // Add 108-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
         tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
@@ -50,18 +56,35 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
     }
     
-    // Whenever a trait collection is modified willTransition updates UI
+    // Whenever a trait collection is modified willTransition updates UI, stop LandscapeVC on iphone plus rotation
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         
-        // Detects new rotation
-        switch newCollection.verticalSizeClass {
-        case .compact: showLandscape(with: coordinator)
-        case .regular, .unspecified: hideLandscape(with: coordinator)
+        let rect = UIScreen.main.bounds
+        if (rect.width == 736 && rect.height == 414) ||   // portrait
+            (rect.width == 414 && rect.height == 736) {    // landscape
+            if presentedViewController != nil {
+                dismiss(animated: true, completion: nil)
+            }
+        } else if UIDevice.current.userInterfaceIdiom != .pad {
+            switch newCollection.verticalSizeClass {
+            case .compact:
+                showLandscape(with: coordinator)
+            case .regular, .unspecified:
+                hideLandscape(with: coordinator)
+            }
         }
     }
     
-    // MARK: - UI Code for landscape
+    private func hideMasterPane() {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.splitViewController!.preferredDisplayMode = .primaryHidden
+        }, completion: { _ in
+            self.splitViewController!.preferredDisplayMode = .automatic
+        })
+    }
+    
+    // MARK: - UI Code for Landscape
     
     func showLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
         // 1 Prevent 2 landscape views showing simoltaneously, return if landscape is already present
@@ -146,6 +169,7 @@ extension SearchViewController: UISearchBarDelegate {
                 let indexPath = sender as! IndexPath
                 let searchResult = list[indexPath.row]
                 detailViewController.searchResult = searchResult
+                detailViewController.isPopUp = true
             }
         }
     }
@@ -195,8 +219,21 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+        searchBar.resignFirstResponder()
+        
+        // Assigns the SearchResult object to the existing DetailViewController that lives in the detail pane
+        if view.window!.rootViewController!.traitCollection
+            .horizontalSizeClass == .compact {
+            tableView.deselectRow(at: indexPath, animated: true)
+            performSegue(withIdentifier: "ShowDetail", sender: indexPath)
+        } else {
+            if case .results(let list) = search.state {
+                splitViewDetail?.searchResult = list[indexPath.row]
+            }
+            if splitViewController!.displayMode != .allVisible {
+                hideMasterPane()
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

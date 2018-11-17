@@ -7,10 +7,18 @@
 //
 
 import UIKit
+import MessageUI
 
 class DetailViewController: UIViewController {
-    var searchResult: SearchResult!
     var downloadTask: URLSessionDownloadTask?
+    var isPopUp = false
+    var searchResult: SearchResult! {
+        didSet {
+            if isViewLoaded {
+                updateUI()
+            }
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,10 +35,23 @@ class DetailViewController: UIViewController {
         view.tintColor = UIColor(red: 20/255, green: 160/255, blue: 160/255, alpha: 1)
         popupView.layer.cornerRadius = 10
 
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
-        gestureRecognizer.cancelsTouchesInView = false
-        gestureRecognizer.delegate = self
-        view.addGestureRecognizer(gestureRecognizer)
+        if isPopUp {
+            let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(close))
+            gestureRecognizer.cancelsTouchesInView = false
+            gestureRecognizer.delegate = self
+            view.addGestureRecognizer(gestureRecognizer)
+            
+            view.backgroundColor = UIColor.clear
+            
+            // Hides the pop-up view until a SearchResult is selected in the table view
+        } else {
+            view.backgroundColor = UIColor(patternImage: UIImage(named: "LandscapeBackground")!)
+            popupView.isHidden = true
+        }
+        
+        if let displayName = Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as? String {
+            title = displayName
+        }
         
         if searchResult != nil {
             updateUI()
@@ -101,13 +122,24 @@ class DetailViewController: UIViewController {
         if let largeURL = URL(string: searchResult.imageLarge) {
             downloadTask = artworkImageView.loadImage(url: largeURL)
         }
+        
+        popupView.isHidden = false
     }
     
     deinit {
         print("deinit \(self)")
         downloadTask?.cancel()
     }
+    
+    // MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowMenu" {
+            let controller = segue.destination as! MenuViewController
+            controller.delegate = self
+        }
+    }
 }
+
 
 extension DetailViewController: UIGestureRecognizerDelegate {
     
@@ -128,5 +160,28 @@ extension DetailViewController: UIGestureRecognizerDelegate {
         case .fade:
             return FadeOutAnimationController()
         }
+    }
+}
+
+extension DetailViewController: MenuViewControllerDelegate {
+    func menuViewControllerSendEmail(_: MenuViewController) {
+        //Hide popover, present MailComposeVC
+        dismiss(animated: true) {
+            if MFMailComposeViewController.canSendMail() {
+            let controller = MFMailComposeViewController()
+            controller.mailComposeDelegate = self
+            controller.modalPresentationStyle = .formSheet
+            controller.setSubject(NSLocalizedString("Support Request", comment: "Email subject"))
+            controller.setToRecipients(["your@email-address-here.com"])
+            self.present(controller, animated: true, completion: nil)
+            }
+        }
+    }
+}
+
+// Determine whether mail sent successfully
+extension DetailViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
 }
