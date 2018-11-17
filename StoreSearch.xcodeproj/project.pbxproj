@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C73FF88021824DBF004A897B /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73FF87F21824DBF004A897B /* SearchResultCell.swift */; };
+		C75D9C1121A0B59100610592 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75D9C1021A0B59100610592 /* MenuViewController.swift */; };
 		C76A2921218A911D00D10C20 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A2920218A911D00D10C20 /* DetailViewController.swift */; };
 		C76A2923218ABFA100D10C20 /* DimmingPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A2922218ABFA100D10C20 /* DimmingPresentationController.swift */; };
 		C76A2925218CFA8E00D10C20 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76A2924218CFA8E00D10C20 /* GradientView.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		C73FF87F21824DBF004A897B /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		C75D9C1021A0B59100610592 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		C76A2920218A911D00D10C20 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		C76A2922218ABFA100D10C20 /* DimmingPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingPresentationController.swift; sourceTree = "<group>"; };
 		C76A2924218CFA8E00D10C20 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		C7925DD4218062460040F858 = {
 			isa = PBXGroup;
 			children = (
+				C75D9C1021A0B59100610592 /* MenuViewController.swift */,
 				C76A292E219175DB00D10C20 /* Search.swift */,
 				C76A2924218CFA8E00D10C20 /* GradientView.swift */,
 				C76A2926218CFBCF00D10C20 /* BounceAnimationController.swift */,
@@ -193,6 +196,7 @@
 				C76A292F219175DB00D10C20 /* Search.swift in Sources */,
 				C7925DE3218062460040F858 /* SearchViewController.swift in Sources */,
 				C76A2923218ABFA100D10C20 /* DimmingPresentationController.swift in Sources */,
+				C75D9C1121A0B59100610592 /* MenuViewController.swift in Sources */,
 				C76A292D2191361300D10C20 /* FadeOutAnimationController.swift in Sources */,
 				C7925DF3218135430040F858 /* SearchResult.swift in Sources */,
 				C73FF88021824DBF004A897B /* SearchResultCell.swift in Sources */,

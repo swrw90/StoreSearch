@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class DetailViewController: UIViewController {
     var downloadTask: URLSessionDownloadTask?
@@ -129,7 +130,16 @@ class DetailViewController: UIViewController {
         print("deinit \(self)")
         downloadTask?.cancel()
     }
+    
+    // MARK:- Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowMenu" {
+            let controller = segue.destination as! MenuViewController
+            controller.delegate = self
+        }
+    }
 }
+
 
 extension DetailViewController: UIGestureRecognizerDelegate {
     
@@ -150,5 +160,11 @@ extension DetailViewController: UIGestureRecognizerDelegate {
         case .fade:
             return FadeOutAnimationController()
         }
+    }
+}
+
+extension DetailViewController: MenuViewControllerDelegate {
+    func menuViewControllerSendEmail(_: MenuViewController) {
+        
     }
 }
