@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Looks up the Detail screen and puts a button into its navigation item for switching between the split view display modes
         detailVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
         
+        splitVC.delegate = self
         return true
     }
 
@@ -73,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-// Dismisses popover if master pane becomes visible 
+// Dismisses popover if master pane becomes visible
 extension AppDelegate: UISplitViewControllerDelegate {
     func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewController.DisplayMode) {
         print(#function)
