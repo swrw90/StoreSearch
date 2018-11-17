@@ -197,16 +197,14 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView,
-                      didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchBar.resignFirstResponder()
         
+        // Assigns the SearchResult object to the existing DetailViewController that lives in the detail pane
         if view.window!.rootViewController!.traitCollection
             .horizontalSizeClass == .compact {
             tableView.deselectRow(at: indexPath, animated: true)
-            performSegue(withIdentifier: "ShowDetail",
-                         sender: indexPath)
-            
+            performSegue(withIdentifier: "ShowDetail", sender: indexPath)
         } else {
             if case .results(let list) = search.state {
                 splitViewDetail?.searchResult = list[indexPath.row]

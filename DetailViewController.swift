@@ -9,9 +9,15 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    var searchResult: SearchResult!
     var downloadTask: URLSessionDownloadTask?
     var isPopUp = false
+    var searchResult: SearchResult! {
+        didSet {
+            if isViewLoaded {
+                updateUI()
+            }
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -111,6 +117,8 @@ class DetailViewController: UIViewController {
         if let largeURL = URL(string: searchResult.imageLarge) {
             downloadTask = artworkImageView.loadImage(url: largeURL)
         }
+        
+        popupView.isHidden = false
     }
     
     deinit {
