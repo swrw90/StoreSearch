@@ -56,14 +56,23 @@ class SearchViewController: UIViewController {
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.loadingCell)
     }
     
-    // Whenever a trait collection is modified willTransition updates UI
+    // Whenever a trait collection is modified willTransition updates UI, stop LandscapeVC on iphone plus rotation
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
         
-        // Detects new rotation
-        switch newCollection.verticalSizeClass {
-        case .compact: showLandscape(with: coordinator)
-        case .regular, .unspecified: hideLandscape(with: coordinator)
+        let rect = UIScreen.main.bounds
+        if (rect.width == 736 && rect.height == 414) ||   // portrait
+            (rect.width == 414 && rect.height == 736) {    // landscape
+            if presentedViewController != nil {
+                dismiss(animated: true, completion: nil)
+            }
+        } else if UIDevice.current.userInterfaceIdiom != .pad {
+            switch newCollection.verticalSizeClass {
+            case .compact:
+                showLandscape(with: coordinator)
+            case .regular, .unspecified:
+                hideLandscape(with: coordinator)
+            }
         }
     }
     

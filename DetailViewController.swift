@@ -170,6 +170,7 @@ extension DetailViewController: MenuViewControllerDelegate {
             if MFMailComposeViewController.canSendMail() {
             let controller = MFMailComposeViewController()
             controller.mailComposeDelegate = self
+            controller.modalPresentationStyle = .formSheet
             controller.setSubject(NSLocalizedString("Support Request", comment: "Email subject"))
             controller.setToRecipients(["your@email-address-here.com"])
             self.present(controller, animated: true, completion: nil)
