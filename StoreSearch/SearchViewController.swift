@@ -34,8 +34,11 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
-        searchBar.becomeFirstResponder()
-        title = NSLocalizedString("Search", comment: "Split view master button")
+        if UIDevice.current.userInterfaceIdiom != .pad {
+            searchBar.becomeFirstResponder()
+            title = NSLocalizedString("Search", comment: "Split view master button")
+        }
+        
         
         // Add 108-point margin at the top - 20 points for the status bar and 44 points for the Search Bar
         tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
@@ -64,7 +67,15 @@ class SearchViewController: UIViewController {
         }
     }
     
-    // MARK: - UI Code for landscape
+    private func hideMasterPane() {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.splitViewController!.preferredDisplayMode = .primaryHidden
+        }, completion: { _ in
+            self.splitViewController!.preferredDisplayMode = .automatic
+        })
+    }
+    
+    // MARK: - UI Code for Landscape
     
     func showLandscape(with coordinator: UIViewControllerTransitionCoordinator) {
         // 1 Prevent 2 landscape views showing simoltaneously, return if landscape is already present
@@ -149,6 +160,7 @@ extension SearchViewController: UISearchBarDelegate {
                 let indexPath = sender as! IndexPath
                 let searchResult = list[indexPath.row]
                 detailViewController.searchResult = searchResult
+                detailViewController.isPopUp = true
             }
         }
     }
@@ -208,6 +220,9 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         } else {
             if case .results(let list) = search.state {
                 splitViewDetail?.searchResult = list[indexPath.row]
+            }
+            if splitViewController!.displayMode != .allVisible {
+                hideMasterPane()
             }
         }
     }

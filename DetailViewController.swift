@@ -48,6 +48,10 @@ class DetailViewController: UIViewController {
             popupView.isHidden = true
         }
         
+        if let displayName = Bundle.main.localizedInfoDictionary?["CFBundleDisplayName"] as? String {
+            title = displayName
+        }
+        
         if searchResult != nil {
             updateUI()
         }
