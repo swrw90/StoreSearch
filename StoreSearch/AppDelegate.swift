@@ -73,3 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// Dismisses popover if master pane becomes visible 
+extension AppDelegate: UISplitViewControllerDelegate {
+    func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewController.DisplayMode) {
+        print(#function)
+        if displayMode == .primaryOverlay {
+            svc.dismiss(animated: true, completion: nil)
+        }
+    }
+}
